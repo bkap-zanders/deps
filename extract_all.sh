@@ -18,7 +18,8 @@ mkdir -p "$DESTINATION_FOLDER"
 for zip_file in "$SOURCE_FOLDER"/*.zip; do
   if [ -f "$zip_file" ]; then
     echo "Unzipping $zip_file ..."
-    unzip -o "$zip_file" -d "$DESTINATION_FOLDER" || {
+    # Unzip contents directly into the destination folder without subfolders
+    unzip -o "$zip_file" -d "$DESTINATION_FOLDER" && find "$DESTINATION_FOLDER" -mindepth 2 -type f -exec mv -t "$DESTINATION_FOLDER" {} + && find "$DESTINATION_FOLDER" -mindepth 1 -type d -exec rm -rf {} + || {
       echo "Failed to unzip $zip_file"
       exit 1
     }
@@ -27,7 +28,4 @@ for zip_file in "$SOURCE_FOLDER"/*.zip; do
   fi
 done
 
-echo "All zip files have been unzipped to $DESTINATION_FOLDER"
-#echo "Installing now the packages."
-
-#pip install --no-index --find-links=$DESTINATION_FOLDER numpy tenacity seaborn langdetect scipy google pydantic scikit-learn matplotlib rich requests openpyxl deepeval googletrans pandas vertexai spacy tqdm typo evaluate datasets py_trans pytz gensim textblob python-dotenv
+echo "All zip files have been unzipped to $DESTINATION_FOLDER without creating subfolders."
