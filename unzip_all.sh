@@ -28,3 +28,6 @@ for zip_file in "$SOURCE_FOLDER"/*.zip; do
 done
 
 echo "All zip files have been unzipped to $DESTINATION_FOLDER"
+echo "Installing now the packages."
+
+pip install --no-index --find-links=$DESTINATION_FOLDER numpy tenacity seaborn langdetect scipy google pydantic scikit-learn matplotlib rich requests openpyxl deepeval googletrans pandas vertexai spacy tqdm typo evaluate datasets py_trans pytz gensim textblob python-dotenv
